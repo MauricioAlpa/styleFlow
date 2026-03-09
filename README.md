@@ -1,7 +1,3 @@
-# styleFlow
-
-Projeto CEPEDI loja virtual
-
 # 👕 StyleFlow - Sistema de Gestão de E-commerce
 
 O **StyleFlow** é uma solução de back-end desenvolvida para uma loja de roupas em expansão que procura substituir controlos manuais por um sistema centralizado. O foco do projeto é garantir o controlo rigoroso de acessos, gestão de fornecedores, monitorização de inventário e registo automatizado de vendas.
