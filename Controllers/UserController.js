@@ -1,5 +1,5 @@
-export class User {
-  async adicionarUsuario({ usuario }) {
+export class Users {
+  async adicionarUser({ usuario }) {
     const query = `INSERT INTO users (nome, email, senha, role) VALUES ($1, $2, $3, $4)`;
     const values = [usuario.nome, usuario.email, usuario.senha, usuario.role];
     try {
@@ -10,7 +10,7 @@ export class User {
     }
   }
 
-  async listarUsuarios() {
+  async listarUsers() {
     const query = "SELECT * FROM users";
     try {
       const result = await db.query(query);
