@@ -13,7 +13,7 @@ export class Suppliers{
             WHERE cnpj = $1
         `;
 
-        const result = await db.query(query, [cppj]);
+        const result = await db.query(query, [cnpj]);
 
         return result.row[0];
     }

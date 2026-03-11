@@ -1,21 +1,14 @@
 import { Router } from "express";
+import { SupplierController } from "../Controllers/SupplierController";
 
 const route = Router();
 
-route.get("/listarfornecedores", (req, res) => {
-  res.status(200).json({ message: "Lista de Fornecedores." });
-});
+route.get("/listarfornecedores", SupplierController.listarSuppliers);
 
-route.post("/cadastrarfornecedor", (req, res) => {
-  res.status(201).json({ message: "Fornecedor criado com sucesso!" });
-});
+route.post("/cadastrarfornecedor", SupplierController.adicionarSupplier)
 
-route.delete("/deletarfornecedor/:id", (req, res) => {
-  res.status(200).json({ message: "Fornecedor deletado com sucesso!" });
-});
+route.delete("/deletarfornecedor/:id", SupplierController.deletarSupplier);
 
-route.put("/atualizarfornecedor", (req, res) => {
-  res.status(200).json({ message: "Fornecedor atualizado com sucesso!" });
-});
+route.put("/atualizarfornecedor", SupplierController.atualizarSupplier);
 
 export default route;

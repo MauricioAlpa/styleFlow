@@ -20,16 +20,16 @@ export class SupplierController {
         contato
       })
 
-      return res.status(200).json(newSupplier);
+      return res.status(201).json(newSupplier);
   }
 
  static async listarSuppliers() {
     const query = `SELECT * FROM suppliers;`;
     try {
       const result = await db.query(query);
-      return result.rows;
+      return res.status(200).json(result.rows);
     } catch (error) {
-      return error.message;
+      return res.status(404).json({error:"Supplier não encontrado"});
     }
   }
 
@@ -38,13 +38,13 @@ export class SupplierController {
     const values = [id];
     try {
       const result = await db.query(query, values);
-      return result.rows[0];
+      return res.status(200).json(result.rows[0]);
     } catch (error) {
-      return error.message;
+      return res.status(404).json({error: "Supplier não deletado"});
     }
   }
 
-static  async atualizarSupplier({ fornecedor }) {
+  static async atualizarSupplier({ fornecedor }) {
     const query = `UPDATE suppliers SET nome_fantasia = $1, cnpj = $2, contato = $3 WHERE id = $4 RETURNING id, nome_fantasia, cnpj, contato`;
     const value = [
       fornecedor.nome_fantasia,
@@ -54,9 +54,9 @@ static  async atualizarSupplier({ fornecedor }) {
     ];
     try {
       const result = await db.query(query, value);
-      return result.rows[0];
+      return res.status(200).json(result.rows[0]);
     } catch (error) {
-      return error.message;
+      return res.status(400).json({error: "Supplier não atualizado"});
     }
   }
 }
