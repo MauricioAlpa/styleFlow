@@ -23,7 +23,7 @@ export class SupplierController {
       return res.status(200).json(newSupplier);
   }
 
-  async listarSuppliers() {
+ static async listarSuppliers() {
     const query = `SELECT * FROM suppliers;`;
     try {
       const result = await db.query(query);
@@ -33,7 +33,7 @@ export class SupplierController {
     }
   }
 
-  async deletarSupplier(id) {
+ static async deletarSupplier(id) {
     const query = `DELETE FROM suppliers WHERE id = $1 RETURNING id`;
     const values = [id];
     try {
@@ -44,7 +44,7 @@ export class SupplierController {
     }
   }
 
-  async atualizarSupplier({ fornecedor }) {
+static  async atualizarSupplier({ fornecedor }) {
     const query = `UPDATE suppliers SET nome_fantasia = $1, cnpj = $2, contato = $3 WHERE id = $4 RETURNING id, nome_fantasia, cnpj, contato`;
     const value = [
       fornecedor.nome_fantasia,
