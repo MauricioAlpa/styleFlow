@@ -11,4 +11,6 @@ route.delete("/deletarfornecedor/:id", SupplierController.deletarSupplier);
 
 route.put("/atualizarfornecedor", SupplierController.atualizarSupplier);
 
+route.get("/findsupplier", SupplierController.findSupllier); //buscar fornecedor pelo cpnj
+
 export default route;

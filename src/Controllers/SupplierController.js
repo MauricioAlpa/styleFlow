@@ -14,13 +14,18 @@ export class SupplierController {
         })
       }
 
-      const newSupplier = Suppliers.criarSupplier({
+      try{
+        const newSupplier = Suppliers.criarSupplier({
         nome_fantasia,
         cnpj,
         contato
       })
-
       return res.status(201).json(newSupplier);
+    } catch(error){
+        return res.status(404).json({error:"Supplier não adicionado"});
+    }
+    
+
   }
 
  static async listarSuppliers() {
@@ -59,4 +64,22 @@ export class SupplierController {
       return res.status(400).json({error: "Supplier não atualizado"});
     }
   }
+
+  static async findSupllier (cnpj) {
+
+    const query = `SELECT * FROM  suppliers WHERE cnpj = $1`
+    const value = [cnpj]
+    
+    try {
+      const result = await db.query(query, value)
+      return res.status(200).json(result.row[0])
+    }
+    catch (error)
+     {
+      return res.status(404).json({error: "cnpj nao encontrado"})
+    }
+
+  }
+
+
 }
