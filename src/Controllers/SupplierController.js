@@ -1,19 +1,26 @@
 import { pool as db } from "../Config/database.js";
+import { Suppliers } from "../Models/Suppliers.js";
 
 export class SupplierController {
-  async adicionarSupplier({ fornecedor }) {
-    const query = ` INSERT INTO suppliers (nome_fantasia, cnpj, contato) VALUES ($1, $2, $3) RETURNING id, nome_fantasia, cnpj, contato `;
-    const values = [
-      fornecedor.nome_fantasia,
-      fornecedor.cnpj,
-      fornecedor.contato,
-    ];
-    try {
-      const result = await db.query(query, values);
-      return result.rows[0];
-    } catch (error) {
-      return error.message;
-    }
+  static async adicionarSupplier(req, res) {
+      const {nome_fantasia, cnpj, contato} = req.body;
+
+      const temSupplier = await Suppliers.validacao(cnpj);
+
+      //faz a validacao do CNPJ
+      if(temSupplier){
+        return res.status(400).json({
+          erro: "CNPJ já cadastrado."
+        })
+      }
+
+      const newSupplier = Suppliers.criarSupplier({
+        nome_fantasia,
+        cnpj,
+        contato
+      })
+
+      return res.status(200).json(newSupplier);
   }
 
   async listarSuppliers() {
