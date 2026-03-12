@@ -16,38 +16,40 @@ export class SupplierController {
 
       try{
         const newSupplier = Suppliers.criarSupplier({
-          nome_fantasia,
-          cnpj,
-          contato
-        })
-        return res.status(201).json(newSupplier);
-      }catch(error){
+        nome_fantasia,
+        cnpj,
+        contato
+      })
+      return res.status(201).json(newSupplier);
+    } catch(error){
         return res.status(404).json({error:"Supplier não adicionado"});
-      }
+    }
+    
+
   }
 
-  async listarSuppliers() {
+ static async listarSuppliers() {
     const query = `SELECT * FROM suppliers;`;
     try {
       const result = await db.query(query);
-      return result.rows;
+      return res.status(200).json(result.rows);
     } catch (error) {
-      return error.message;
+      return res.status(404).json({error:"Supplier não encontrado"});
     }
   }
 
-  async deletarSupplier(id) {
+ static async deletarSupplier(id) {
     const query = `DELETE FROM suppliers WHERE id = $1 RETURNING id`;
     const values = [id];
     try {
       const result = await db.query(query, values);
-      return result.rows[0];
+      return res.status(200).json(result.rows[0]);
     } catch (error) {
-      return error.message;
+      return res.status(404).json({error: "Supplier não deletado"});
     }
   }
 
-  async atualizarSupplier({ fornecedor }) {
+  static async atualizarSupplier({ fornecedor }) {
     const query = `UPDATE suppliers SET nome_fantasia = $1, cnpj = $2, contato = $3 WHERE id = $4 RETURNING id, nome_fantasia, cnpj, contato`;
     const value = [
       fornecedor.nome_fantasia,
@@ -57,9 +59,27 @@ export class SupplierController {
     ];
     try {
       const result = await db.query(query, value);
-      return result.rows[0];
+      return res.status(200).json(result.rows[0]);
     } catch (error) {
-      return error.message;
+      return res.status(400).json({error: "Supplier não atualizado"});
     }
   }
+
+  static async findSupllier (cnpj) {
+
+    const query = `SELECT * FROM  suppliers WHERE cnpj = $1`
+    const value = [cnpj]
+    
+    try {
+      const result = await db.query(query, value)
+      return res.status(200).json(result.row[0])
+    }
+    catch (error)
+     {
+      return res.status(404).json({error: "cnpj nao encontrado"})
+    }
+
+  }
+
+
 }
